@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
      * method called when order button is clicked
      */
     public void submitOrder(View view) {
-        String message = "Item count" + 5;
+        String message = "Total: $" + (quantity * 5);
         displayMessage(message);
     }
 
