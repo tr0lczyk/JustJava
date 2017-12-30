@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void increment(View view) {
         quantity = quantity + 1;
-        display(quantity);
+        displayQuantity(quantity);
     }
 
     /**
@@ -42,25 +42,45 @@ public class MainActivity extends AppCompatActivity {
      */
     public void decrement(View view) {
         quantity = quantity - 1;
-        display(quantity);
+        displayQuantity(quantity);
     }
 
     /**
      * method called when order button is clicked
      */
     public void submitOrder(View view) {
-        int price = quantity * 5;
-        String priceMessage = "Total: $" + price;
-        priceMessage = priceMessage + "\nThank you!";
-        displayMessage(priceMessage);
+        int price = calculatePrice();
+        displayMessage(createOrderSummary(price));
+    }
+
+    /**
+     * Calculates the price of the order.
+     *
+     * @return the price of ordered coffees
+     */
+    private int calculatePrice() {
+        return quantity * 5;
+    }
+
+    /**
+     * Creates summary of the order.
+     *
+     * @return quantity and price of the order
+     */
+    private String createOrderSummary(int priceOfOrder){
+        String priceMessage = "Name: Kapitan Kunal";
+        priceMessage += "\nQuantity: " + quantity;
+        priceMessage += "\nTotal: $" + priceOfOrder;
+        priceMessage += "\nThank you!";
+        return  priceMessage;
     }
 
     /**
      * This method displays the given quantity value on the screen.
      */
-    private void display(int number) {
+    private void displayQuantity(int book) {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
-        quantityTextView.setText("" + number);
+        quantityTextView.setText("" + book);
     }
 
     /**
@@ -78,6 +98,5 @@ public class MainActivity extends AppCompatActivity {
         TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
         priceTextView.setText(message);
     }
-
 
 }
