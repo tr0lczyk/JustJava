@@ -15,11 +15,12 @@
         android:textAllCaps="true" />
 
     <CheckBox
+        android:id="@+id/checkbox_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:paddingLeft="24dp"
         android:text="Whipped Cream"
-        android:paddingLeft="24dp"/>
+        android:textSize="16sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -80,5 +81,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:onClick="submitOrder"
-        android:text="Order"/>
+        android:text="Order" />
 </LinearLayout>

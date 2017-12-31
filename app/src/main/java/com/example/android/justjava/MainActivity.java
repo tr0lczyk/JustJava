@@ -11,6 +11,7 @@ package com.example.android.justjava;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -50,8 +51,12 @@ public class MainActivity extends AppCompatActivity {
      * method called when order button is clicked
      */
     public void submitOrder(View view) {
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.checkbox_view);
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+        Log.v("MainActivity", "Has whipped cream: " + hasWhippedCream);
         int price = calculatePrice();
-        displayMessage(createOrderSummary(price));
+        String priceMessage = createOrderSummary(price, hasWhippedCream);
+        displayMessage(priceMessage);
     }
 
     /**
@@ -67,13 +72,15 @@ public class MainActivity extends AppCompatActivity {
      * Creates summary of the order.
      *
      * @return quantity and price of the order
+     * @param additionalCream is stating if the customer would like to get the Whipped  cream
      */
-    private String createOrderSummary(int priceOfOrder){
+    private String createOrderSummary(int priceOfOrder, boolean additionalCream) {
         String priceMessage = "Name: Kapitan Kunal";
+        priceMessage += "\nAdd whipped cream? " + additionalCream;
         priceMessage += "\nQuantity: " + quantity;
         priceMessage += "\nTotal: $" + priceOfOrder;
         priceMessage += "\nThank you!";
-        return  priceMessage;
+        return priceMessage;
     }
 
     /**
@@ -90,10 +97,6 @@ public class MainActivity extends AppCompatActivity {
     private void displayMessage(String message) {
         TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
         orderSummaryTextView.setText(message);
-    }
-
-    private void informationCheckLog(View view) {
-        CheckBox hasWhippedCream = (CheckBox)
     }
 
 }
