@@ -9,12 +9,18 @@
 package com.example.android.justjava;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 
@@ -33,18 +39,29 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * This method is called when the increment button is clicked.
+     * Adds one quantity to the volume of order
      */
     public void increment(View view) {
-        quantity = quantity + 1;
-        displayQuantity(quantity);
+        if (quantity > 99){
+            Toast.makeText(this, "You cannot order more than 99 coffees ;)", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            quantity = quantity + 1;
+            displayQuantity(quantity);
+        }
     }
-
     /**
      * This method is called when the decrement button is clicked.
+     * increment the order with 1 amount
      */
     public void decrement(View view) {
-        quantity = quantity - 1;
-        displayQuantity(quantity);
+        if (quantity == 1){
+            Toast.makeText(this,"You cannot order less than 1 coffee ;)", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            quantity = quantity - 1;
+            displayQuantity(quantity);
+        }
     }
 
     /**
@@ -57,18 +74,38 @@ public class MainActivity extends AppCompatActivity {
         CheckBox choclateCheckBox = (CheckBox) findViewById(R.id.checkbox2_view);
         boolean hasChocolate = choclateCheckBox.isChecked();
         Log.v("MainActivity", "Adding Chocolate? " + hasChocolate);
-        int price = calculatePrice();
-        String priceMessage = createOrderSummary(price, hasWhippedCream, hasChocolate);
-        displayMessage(priceMessage);
+        EditText  nameInput = (EditText) findViewById(R.id.editText_view);
+        String takenName = nameInput.getText().toString();
+        Log.v("MainActivity", "Client's name: " + nameInput);
+        int price = calculatePrice(hasWhippedCream, hasChocolate);
+        String priceMessage = createOrderSummary(price, hasWhippedCream, hasChocolate, takenName);
+//        displayMessage(priceMessage);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Just Java order for: " + takenName);
+        intent.putExtra(Intent.EXTRA_TEXT, priceMessage);
+        if (intent.resolveActivity(getPackageManager()) != null){
+            startActivity(intent);
+        }
     }
 
     /**
      * Calculates the price of the order.
      *
      * @return the price of ordered coffees
+     * @param cream is whether or not to add the price of cream
+     * @param choco is wether or not the user needs chocolate
      */
-    private int calculatePrice() {
-        return quantity * 5;
+    private int calculatePrice( boolean cream, boolean choco) {
+        int basePrice = 5;
+        if (cream == true){
+            basePrice += 1;
+        }
+
+        if (choco == true){
+            basePrice += 2;
+        }
+        return basePrice * quantity;
     }
 
     /**
@@ -78,8 +115,9 @@ public class MainActivity extends AppCompatActivity {
      * @param additionalCream is stating if the customer would like to get the Whipped  cream
      * @param additionalChocolate is stating if the customr order chocolate or no
      */
-    private String createOrderSummary(int priceOfOrder, boolean additionalCream, boolean additionalChocolate) {
+    private String createOrderSummary(int priceOfOrder, boolean additionalCream, boolean additionalChocolate, String nameOfCustomer) {
         String priceMessage = "Name: Kapitan Kunal";
+        priceMessage += "\nCustomer's name: " + nameOfCustomer;
         priceMessage += "\nAdd whipped cream? " + additionalCream;
         priceMessage += "\nAdd chocolate? " + additionalChocolate;
         priceMessage += "\nQuantity: " + quantity;
