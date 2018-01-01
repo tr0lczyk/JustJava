@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Just Java</string>
+    <string name="thank_you">Dzięki!</string>
+    <string name="toppings">Dodatki</string>
+    <string name="quantity">Ilość</string>
+    <string name="order">Zamówienie</string>
+    <string name="editText_name">Imię</string>
+    <string name="choco">"Dodać czekoladę? "</string>
+</resources>

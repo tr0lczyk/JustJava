@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         Log.v("MainActivity", "Client's name: " + nameInput);
         int price = calculatePrice(hasWhippedCream, hasChocolate);
         String priceMessage = createOrderSummary(price, hasWhippedCream, hasChocolate, takenName);
-//        displayMessage(priceMessage);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("mailto:"));
         intent.putExtra(Intent.EXTRA_SUBJECT, "Just Java order for: " + takenName);
@@ -116,13 +115,12 @@ public class MainActivity extends AppCompatActivity {
      * @param additionalChocolate is stating if the customr order chocolate or no
      */
     private String createOrderSummary(int priceOfOrder, boolean additionalCream, boolean additionalChocolate, String nameOfCustomer) {
-        String priceMessage = "Name: Kapitan Kunal";
-        priceMessage += "\nCustomer's name: " + nameOfCustomer;
+        String priceMessage = getString(R.string.order_summary_name, nameOfCustomer);
         priceMessage += "\nAdd whipped cream? " + additionalCream;
-        priceMessage += "\nAdd chocolate? " + additionalChocolate;
+        priceMessage += "\n" + getString(R.string.choco) + additionalChocolate;
         priceMessage += "\nQuantity: " + quantity;
         priceMessage += "\nTotal: $" + priceOfOrder;
-        priceMessage += "\nThank you!";
+        priceMessage += "\n" + getString(R.string.thank_you);
         return priceMessage;
     }
 
@@ -132,14 +130,6 @@ public class MainActivity extends AppCompatActivity {
     private void displayQuantity(int book) {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
         quantityTextView.setText("" + book);
-    }
-
-    /**
-     * This method displays the given text on the screen.
-     */
-    private void displayMessage(String message) {
-        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
-        orderSummaryTextView.setText(message);
     }
 
 }
